@@ -1,7 +1,5 @@
 from pathlib import Path
 from vocoder import inference as vocoder
-import soundfile as sf
-import numpy as np
 
 class rtvc_args():
     def __init__(self):

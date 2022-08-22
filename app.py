@@ -13,7 +13,7 @@ class UserInput(BaseModel):
 
 @app.get('/')
 def index():
-    return {"Message": "This is Index"}
+    return {"Message": "This is vocoder API for better project"}
 
 @app.get('/inference/')
 async def inference(userinput: UserInput):

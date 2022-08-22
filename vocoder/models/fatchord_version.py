@@ -257,10 +257,10 @@ class WaveRNN(nn.Module):
         return output
 
 
-    def gen_display(self, i, seq_len, b_size, gen_rate):
-        pbar = progbar(i, seq_len)
-        msg = f'| {pbar} {i*b_size}/{seq_len*b_size} | Batch Size: {b_size} | Gen Rate: {gen_rate:.1f}kHz | '
-        stream(msg)
+    # def gen_display(self, i, seq_len, b_size, gen_rate):
+    #     pbar = progbar(i, seq_len)
+    #     msg = f'| {pbar} {i*b_size}/{seq_len*b_size} | Batch Size: {b_size} | Gen Rate: {gen_rate:.1f}kHz | '
+    #     stream(msg)
 
     def get_gru_cell(self, gru):
         gru_cell = nn.GRUCell(gru.input_size, gru.hidden_size)

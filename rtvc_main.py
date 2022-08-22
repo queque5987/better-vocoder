@@ -1,12 +1,11 @@
 from pathlib import Path
-import api_taco
 from vocoder import inference as vocoder
 import soundfile as sf
 import numpy as np
 
 class rtvc_args():
     def __init__(self):
-        self.voc_model_fpath = Path("saved_models/vocoder")
+        self.voc_model_fpath = Path("saved_model/vocoder")
         self.cpu = True
         self.seed = None
     def pop(self, idx):

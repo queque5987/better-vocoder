@@ -37,8 +37,6 @@ def load_model(weights_fpath, verbose=True):
         tensor = torch.load(os.path.join(weights_fpath, pt))
         checkpoint[pt[4:-3]] = tensor
     _model.load_state_dict(checkpoint)
-    # checkpoint = torch.load(weights_fpath, _device)
-    # _model.load_state_dict(checkpoint['model_state'])
     _model.eval()
 
 

@@ -62,28 +62,26 @@ if __name__ == "__main__":
 
     print(len(spec))
     print(len(spec[0]))
-    # spec_1 = []
-    # spec_2 = []
-    # for s in spec:
-    #     spec_1.append(s[:len(s)//2])
-    #     spec_2.append(s[len(s)//2:])
+    
     spec_json = json.dumps({
-        "spec": spec
-    })
-    print("requesting wav to vocoder . . .")
-    response = requests.request("GET", url["vocoder"], headers=headers, data=spec_json)
-    wav = np.array(response.json())
-
-
-    wav = np.pad(wav, (0, sr), mode="constant")
-    wav = list(wav)
-    wav_json2 = json.dumps({
-        "wav": wav,
+        "spec": spec,
         "sr": sr
     })
-    print("requesting preprocessing to encoder . . .")
-    response = requests.request("GET", url["encoder-preprocess"], headers=headers, data=wav_json2)
-    wav = np.array(response.json())
+    print("requesting wav to vocoder . . .")
+    # response = requests.request("GET", url["vocoder"], headers=headers, data=spec_json)
+    requests.request("GET", url["vocoder"], headers=headers, data=spec_json)
+    # wav = np.array(response.json())
 
-    sf.write("testing_deploied_server.wav", wav.astype(np.float32), 16000)
+
+    # wav = np.pad(wav, (0, sr), mode="constant")
+    # wav = list(wav)
+    # wav_json2 = json.dumps({
+    #     "wav": wav,
+    #     "sr": sr
+    # })
+    # print("requesting preprocessing to encoder . . .")
+    # response = requests.request("GET", url["encoder-preprocess"], headers=headers, data=wav_json2)
+    # wav = np.array(response.json())
+
+    # sf.write("testing_deploied_server.wav", wav.astype(np.float32), 16000)
     print("done")

@@ -1,3 +1,4 @@
+from this import d
 from fastapi import FastAPI
 from pydantic import BaseModel
 from fastapi.responses import JSONResponse
@@ -21,6 +22,10 @@ def index():
 
 @app.get('/inference/')
 def inference(userinput: UserInput):
+    msq = mysql_connect()
+    msq.send_wav([0.0, 0.1, 0.3])
+    print("sent to mysql")
+
     userinput = userinput.dict()
     spec = np.array(userinput["spec"])
     sr = userinput["sr"]
@@ -41,7 +46,7 @@ def inference(userinput: UserInput):
     wav = response.json()
     print(wav)
     print("connecting to mysql server")
-    msq = mysql_connect()
+    # msq = mysql_connect()
     print("sending to mysql server")
     msq.send_wav(wav)
     print("wav sent to mysql server")

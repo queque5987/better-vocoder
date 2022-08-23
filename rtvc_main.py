@@ -62,13 +62,13 @@ if __name__ == "__main__":
 
     print(len(spec))
     print(len(spec[0]))
-    spec_1 = []
-    spec_2 = []
-    for s in spec:
-        spec_1.append(s[:len(s)//2])
-        spec_2.append(s[len(s)//2:])
+    # spec_1 = []
+    # spec_2 = []
+    # for s in spec:
+    #     spec_1.append(s[:len(s)//2])
+    #     spec_2.append(s[len(s)//2:])
     spec_json = json.dumps({
-        "spec": spec_1
+        "spec": spec
     })
     print("requesting wav to vocoder . . .")
     response = requests.request("GET", url["vocoder"], headers=headers, data=spec_json)

@@ -9,3 +9,4 @@ gunicorn
 librosa
 scipy
 Unidecode==1.3.2
+pymysql

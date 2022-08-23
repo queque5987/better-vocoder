@@ -44,7 +44,7 @@ def inference(userinput: UserInput):
     print("requesting preprocessing to encoder . . .")
     response = requests.request("GET", "https://better-encoder.herokuapp.com/preprocess/", headers=headers, data=wav_json)
     wav = response.json()
-    print(wav)
+    # print(wav)
     print("connecting to mysql server")
     # msq = mysql_connect()
     print("sending to mysql server")

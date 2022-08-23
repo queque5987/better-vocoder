@@ -1,10 +1,10 @@
 import torch
 import torch.nn as nn
 import torch.nn.functional as F
-from vocoder.distribution import sample_from_discretized_mix_logistic
+# from vocoder.distribution import sample_from_discretized_mix_logistic
 # from vocoder.display import *
 from vocoder.audio import *
-import time
+# import time
 
 
 class ResBlock(nn.Module):
@@ -157,7 +157,7 @@ class WaveRNN(nn.Module):
 
         self.eval()
         output = []
-        start = time.time()
+        # start = time.time()
         rnn1 = self.get_gru_cell(self.rnn1)
         rnn2 = self.get_gru_cell(self.rnn2)
 
@@ -189,7 +189,7 @@ class WaveRNN(nn.Module):
             aux_split = [aux[:, :, d * i:d * (i + 1)] for i in range(4)]
 
             for i in range(seq_len):
-
+                print("generating {}/{}".format(i, seq_len))
                 m_t = mels[:, i, :]
 
                 a1_t, a2_t, a3_t, a4_t = (a[:, i, :] for a in aux_split)
@@ -211,24 +211,24 @@ class WaveRNN(nn.Module):
 
                 logits = self.fc3(x)
 
-                if self.mode == 'MOL':
-                    sample = sample_from_discretized_mix_logistic(logits.unsqueeze(0).transpose(1, 2))
-                    output.append(sample.view(-1))
-                    if torch.cuda.is_available():
-                        # x = torch.FloatTensor([[sample]]).cuda()
-                        x = sample.transpose(0, 1).cuda()
-                    else:
-                        x = sample.transpose(0, 1)
+                # if self.mode == 'MOL':
+                #     sample = sample_from_discretized_mix_logistic(logits.unsqueeze(0).transpose(1, 2))
+                #     output.append(sample.view(-1))
+                #     if torch.cuda.is_available():
+                #         # x = torch.FloatTensor([[sample]]).cuda()
+                #         x = sample.transpose(0, 1).cuda()
+                #     else:
+                #         x = sample.transpose(0, 1)
 
-                elif self.mode == 'RAW' :
-                    posterior = F.softmax(logits, dim=1)
-                    distrib = torch.distributions.Categorical(posterior)
+                # elif self.mode == 'RAW' :
+                posterior = F.softmax(logits, dim=1)
+                distrib = torch.distributions.Categorical(posterior)
 
-                    sample = 2 * distrib.sample().float() / (self.n_classes - 1.) - 1.
-                    output.append(sample)
-                    x = sample.unsqueeze(-1)
-                else:
-                    raise RuntimeError("Unknown model mode value - ", self.mode)
+                sample = 2 * distrib.sample().float() / (self.n_classes - 1.) - 1.
+                output.append(sample)
+                x = sample.unsqueeze(-1)
+                # else:
+                #     raise RuntimeError("Unknown model mode value - ", self.mode)
 
                 # if i % 100 == 0:
                 #     gen_rate = (i + 1) / (time.time() - start) * b_size / 1000

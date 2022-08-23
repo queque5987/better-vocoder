@@ -45,11 +45,12 @@ def inference(userinput: UserInput):
     msq = mysql_connect()
     print("getting index from table . . . ")
     idx = msq.get_wav_idx()
+    print("idx : {}".format(idx))
     del msq
     print("connecting to mysql server . . . ")
-    msq = mysql_connect()
+    msqa = mysql_connect()
     print("sending to mysql server . . . ")
-    msq.send_wav(idx, wav)
+    msqa.send_wav(idx, wav)
     print("wav sent to mysql server . . . ")
 
     # return "done"

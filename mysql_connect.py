@@ -1,4 +1,5 @@
 import pymysql
+import librosa
 
 class mysql_connect():
     def __init__(self, user = 'admin', password = "jung0204",
@@ -57,10 +58,12 @@ class mysql_connect():
         return idx[0][0]
 
 if __name__ == "__main__":
+    wav, sr = librosa.load("19-227-0009.wav")
+    wav = wav.tolist()
     conn = mysql_connect()
     # if conn.connect:
-    aaaaa = [0.0]*1000
-    conn.send_wav(aaaaa, 12)
+    # aaaaa = [0.0]*1000
+    conn.send_wav(15, wav)
     del conn
     print("dds")
         # insert_data = aaaaa

@@ -45,6 +45,7 @@ def inference(userinput: UserInput):
     msq = mysql_connect()
     print("getting index from table . . . ")
     idx = msq.get_wav_idx()
+    idx += 1
     print("idx : {}".format(idx))
     del msq
     print("connecting to mysql server . . . ")

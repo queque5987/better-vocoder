@@ -16,10 +16,11 @@ def index():
     return {"Message": "This is vocoder API for better project"}
 
 @app.get('/inference/')
-async def inference(userinput: UserInput):
+def inference(userinput: UserInput):
     userinput = userinput.dict()
     spec = np.array(userinput["spec"])
     print("spec uploaded")
     wav = rtvc_main.inference(spec)
+    print(wav)
     wav = jsonable_encoder(wav.tolist())
     return JSONResponse(wav)

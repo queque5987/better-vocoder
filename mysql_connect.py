@@ -22,6 +22,7 @@ class mysql_connect():
         self.cursor = self.db.cursor()
 
     def __del__(self):
+        print("deleted")
         self.db.close()
 
     def querry(self, sql):
@@ -40,32 +41,37 @@ class mysql_connect():
             while fetch:
                 fetch = cursor.fetchone()
                 result.append(fetch)
+            self.cursor = cursor
             return result
         else:
             return cursor
 
-    def send_wav(self, wav):
-        idx = self.get_items_list('select max(waveid) from better_wave')[0][0]
-        idx += 1
-        self.querry(
+    def send_wav(self, idx, wav):
+        print(self.querry(
             'insert into better_wave(waveid, wave_data) values("{}", "{}")'.format(idx, wav)
-        )
+        ))
         self.db.commit()
 
-# if __name__ == "__main__":
-    # conn = mysql_connect(
-    # )
+    def get_wav_idx(self):
+        idx = self.get_items_list('select max(waveid) from better_wave')
+        return idx[0][0]
+
+if __name__ == "__main__":
+    conn = mysql_connect()
     # if conn.connect:
-    #     aaaaa = [0.0]*1000
-    #     # insert_data = aaaaa
-    #     # insert_sql = "INSERT INTO `better_wave` VALUES (%s, %s);"
-    #     # conn.cursor.execute(insert_sql, insert_data)
-    #     # conn.db.commit()
+    aaaaa = [0.0]*1000
+    conn.send_wav(aaaaa, 12)
+    del conn
+    print("dds")
+        # insert_data = aaaaa
+        # insert_sql = "INSERT INTO `better_wave` VALUES (%s, %s);"
+        # conn.cursor.execute(insert_sql, insert_data)
+        # conn.db.commit()
         
         
         
-    #     # cursor.executemany(insert_sql, insert_data)
-    #     print(conn.get_items_list(
+        # cursor.executemany(insert_sql, insert_data)
+    # print(conn.get_items_list(
     #         'select max(waveid) from better_wave'
     #         # 'insert into better_wave(waveid, wave_data) values("{}", "{}")'.format(2, aaaaa)
     #         )[0][0]

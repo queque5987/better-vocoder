@@ -22,10 +22,6 @@ def index():
 
 @app.get('/inference/')
 def inference(userinput: UserInput):
-    msq = mysql_connect()
-    msq.send_wav([0.0, 0.1, 0.3])
-    print("sent to mysql")
-
     userinput = userinput.dict()
     spec = np.array(userinput["spec"])
     sr = userinput["sr"]
@@ -44,12 +40,17 @@ def inference(userinput: UserInput):
     print("requesting preprocessing to encoder . . .")
     response = requests.request("GET", "https://better-encoder.herokuapp.com/preprocess/", headers=headers, data=wav_json)
     wav = response.json()
-    # print(wav)
-    print("connecting to mysql server")
-    # msq = mysql_connect()
-    print("sending to mysql server")
-    msq.send_wav(wav)
-    print("wav sent to mysql server")
+    
+    print("connecting to mysql server . . . ")
+    msq = mysql_connect()
+    print("getting index from table . . . ")
+    idx = msq.get_wav_idx()
+    del msq
+    print("connecting to mysql server . . . ")
+    msq = mysql_connect()
+    print("sending to mysql server . . . ")
+    msq.send_wav(wav, idx)
+    print("wav sent to mysql server . . . ")
 
     # return "done"
     # wav = jsonable_encoder("done")

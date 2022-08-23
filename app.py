@@ -19,6 +19,7 @@ def index():
 async def inference(userinput: UserInput):
     userinput = userinput.dict()
     spec = np.array(userinput["spec"])
+    print("spec uploaded")
     wav = rtvc_main.inference(spec)
     wav = jsonable_encoder(wav.tolist())
     return JSONResponse(wav)

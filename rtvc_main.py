@@ -45,7 +45,7 @@ if __name__ == "__main__":
     headers = {
         'Content-Type': 'application/json'
     }
-    # print("requesting embed to encoder . . .")
+    print("requesting embed to encoder . . .")
     response = requests.request("GET", url["encoder-inference"], headers=headers, data=wav_json)
     embed = response.json()
     # print(embed)

@@ -49,7 +49,7 @@ def inference(userinput: UserInput):
     print("connecting to mysql server . . . ")
     msq = mysql_connect()
     print("sending to mysql server . . . ")
-    msq.send_wav(wav, idx)
+    msq.send_wav(idx, wav)
     print("wav sent to mysql server . . . ")
 
     # return "done"

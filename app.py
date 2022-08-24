@@ -1,7 +1,7 @@
 from this import d
 from fastapi import FastAPI
 from pydantic import BaseModel
-from fastapi.responses import JSONResponse
+from fastapi.responses import JSONResponse, FileResponse
 from fastapi.encoders import jsonable_encoder
 import numpy as np
 import json
@@ -18,7 +18,7 @@ class UserInput(BaseModel):
 
 @app.get('/')
 def index():
-    return {"Message": "This is vocoder API for better project"}
+    return FileResponse("index.html")
 
 @app.get('/inference/')
 def inference(userinput: UserInput):

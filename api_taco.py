@@ -14,6 +14,8 @@ def get_embed():
     headers = {
         'Content-Type': 'application/json'
     }
-    response = requests.request("GET", url, headers=headers, data=wav_json)
-    embed = np.array(response.json())
-    return embed
+    response = requests.request("POST", url, headers=headers, data=wav_json)
+    embed = response.json()
+    embed = eval(embed)
+    # embed = np.array(response.json())
+    return embed['embed']

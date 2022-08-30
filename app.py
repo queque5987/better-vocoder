@@ -1,4 +1,4 @@
-from this import d
+# from this import d
 from fastapi import FastAPI
 from pydantic import BaseModel
 from fastapi.responses import JSONResponse, FileResponse
@@ -57,8 +57,10 @@ def inference(userinput: UserInput):
         'Content-Type': 'application/json'
     }
     print("requesting preprocessing to encoder . . .")
-    response = requests.request("GET", "https://better-encoder.herokuapp.com/preprocess/", headers=headers, data=wav_json)
+    response = requests.request("POST", "https://better-encoder.herokuapp.com/preprocess/", headers=headers, data=wav_json)
     wav = response.json()
+    wav = eval(wav)
+    wav = wav['wav']
     
     print("connecting to mysql server . . . ")
     msq = mysql_connect()
@@ -72,6 +74,7 @@ def inference(userinput: UserInput):
     print("sending to mysql server . . . ")
     msqa.send_wav(idx, wav)
     print("wav sent to mysql server . . . ")
+    
     wav_json = json.dumps({
         "wav": wav,
         "sr": sr

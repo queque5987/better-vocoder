@@ -36,7 +36,7 @@ if __name__ == "__main__":
         "vocoder": "https://better-vocoder.herokuapp.com/inference/"
     }
     text = "It's a rocket."
-    wav, sr = librosa.load("19-227-0009.wav")
+    wav, sr = librosa.load("26-495-0000.wav")
     wav = wav.tolist()
     wav_json = json.dumps({
         "wav": wav,

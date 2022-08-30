@@ -3,6 +3,7 @@ from fastapi import FastAPI
 from pydantic import BaseModel
 from fastapi.responses import JSONResponse, FileResponse
 from fastapi.encoders import jsonable_encoder
+from fastapi.middleware.cors import CORSMiddleware
 import numpy as np
 import json
 import requests
@@ -12,6 +13,14 @@ import rtvc_main
 
 app = FastAPI()
 
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["*"],
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
+
 class UserInput(BaseModel):
     spec: list
     sr: int
@@ -20,8 +29,18 @@ class UserInput(BaseModel):
 def index():
     return FileResponse("index.html")
 
-@app.get('/inference/')
+@app.post('/inference/')
 def inference(userinput: UserInput):
+    """
+    @request
+        mel spectrogram data to generate {list}
+            converted {tensor} mel spectrogram to {list}, and its sample_rate {int}
+    @response
+        generated wav {list}
+            use librosa or any library to turn this to listenable wav file.
+
+    **This method returns voice file inferenced by mel spectrogram**
+    """
     userinput = userinput.dict()
     spec = np.array(userinput["spec"])
     sr = userinput["sr"]
@@ -53,9 +72,8 @@ def inference(userinput: UserInput):
     print("sending to mysql server . . . ")
     msqa.send_wav(idx, wav)
     print("wav sent to mysql server . . . ")
-
-    # return "done"
-    # wav = jsonable_encoder("done")
-    return JSONResponse(jsonable_encoder("done"))
-    # wav = jsonable_encoder(wav.tolist())
-    # return JSONResponse(wav)
+    wav_json = json.dumps({
+        "wav": wav,
+        "sr": sr
+    })
+    return JSONResponse(wav_json)

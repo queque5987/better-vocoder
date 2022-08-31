@@ -1,4 +1,5 @@
 from pathlib import Path
+from better_encoder.encoder.inference import is_loaded
 from vocoder import inference as vocoder
 
 import requests
@@ -8,21 +9,11 @@ import numpy as np
 import soundfile as sf
 
 
-
-class rtvc_args():
-    def __init__(self):
-        self.voc_model_fpath = Path("saved_models/vocoder")
-        self.cpu = True
-        self.seed = None
-    def pop(self, idx):
-        if idx == "cpu":
-            return self.cpu
-
 def inference(spec):
-    args = rtvc_args()
-    print("loading vocoder")
-    vocoder.load_model(args.voc_model_fpath)
-    print("inferring waveform")
+    if not vocoder.is_loaded:
+        print("loading vocoder . . . ")
+        vocoder.load_model("/")
+    print("inferring waveform . . . ")
     generated_wav = vocoder.infer_waveform(spec)
-    print("wav generated")
+    print("wav generated . . . ")
     return generated_wav

@@ -1,5 +1,4 @@
 from pathlib import Path
-from better_encoder.encoder.inference import is_loaded
 from vocoder import inference as vocoder
 
 import requests

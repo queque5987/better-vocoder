@@ -12,7 +12,7 @@ import soundfile as sf
 def inference(spec):
     if not vocoder.is_loaded:
         print("loading vocoder . . . ")
-        vocoder.load_model("/")
+        vocoder.load_model(Path("saved_models/vocoder"))
     print("inferring waveform . . . ")
     generated_wav = vocoder.infer_waveform(spec)
     print("wav generated . . . ")

@@ -62,18 +62,22 @@ def inference(userinput: UserInput):
     wav = eval(wav)
     wav = wav['wav']
     
-    print("connecting to mysql server . . . ")
-    msq = mysql_connect()
-    print("getting index from table . . . ")
-    idx = msq.get_wav_idx()
-    idx += 1
-    print("idx : {}".format(idx))
-    del msq
-    print("connecting to mysql server . . . ")
-    msqa = mysql_connect()
-    print("sending to mysql server . . . ")
-    msqa.send_wav(idx, wav)
-    print("wav sent to mysql server . . . ")
+    """
+    sendinig output to DB code for timeout issue
+    """
+
+    # print("connecting to mysql server . . . ")
+    # msq = mysql_connect()
+    # print("getting index from table . . . ")
+    # idx = msq.get_wav_idx()
+    # idx += 1
+    # print("idx : {}".format(idx))
+    # del msq
+    # print("connecting to mysql server . . . ")
+    # msqa = mysql_connect()
+    # print("sending to mysql server . . . ")
+    # msqa.send_wav(idx, wav)
+    # print("wav sent to mysql server . . . ")
     
     wav_json = json.dumps({
         "wav": wav,

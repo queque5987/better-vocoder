@@ -3,7 +3,7 @@ import json
 import librosa
 import numpy as np
 
-url = "https://better-encoder.herokuapp.com/inference/"
+url = "https://better-encoder.herokuapp.com/inference"
 def get_embed():
     wav, sr = librosa.load("19-227-0009.wav")
     wav = wav.tolist()

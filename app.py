@@ -29,7 +29,11 @@ class UserInput(BaseModel):
 def index():
     return FileResponse("index.html")
 
-@app.post('/inference/')
+@app.get('/check')
+def check():
+    return "service available"
+
+@app.post('/inference')
 def inference(userinput: UserInput):
     """
     @request
@@ -57,7 +61,12 @@ def inference(userinput: UserInput):
         'Content-Type': 'application/json'
     }
     print("requesting preprocessing to encoder . . .")
-    response = requests.request("POST", "https://better-encoder.herokuapp.com/preprocess/", headers=headers, data=wav_json)
+    res = requests.request("GET", "https://better-encoder.herokuapp.com/check", headers=headers)
+    if res.text != "\"service available\"":
+        print("{} dose not repond \nchanging to {}".format("better-encoder","better-encoder2"))
+        response = requests.request("POST", "https://better-encoder2.herokuapp.com/preprocess", headers=headers, data=wav_json)
+    else:
+        response = requests.request("POST", "https://better-encoder.herokuapp.com/preprocess", headers=headers, data=wav_json)
     wav = response.json()
     wav = eval(wav)
     wav = wav['wav']
